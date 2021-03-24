@@ -50,7 +50,7 @@ Function ConvertTo-SchemaGuid {
     try {
         $guid = [System.Guid]::Parse($raw_value)
         return $guid
-    } catch [System.FormatException] {}  # not a GUID, we try and convert by scanning AD
+    } catch [System.FormatException] {$null = 1}  # not a GUID, we try and convert by scanning AD
 
     $root_schema = (Get-ADRootDSE @CommonParameters).schemaNamingContext
     $id_object = Get-ADObject -Filter { Name -eq $raw_value } -SearchBase $root_schema -Property schemaIDGUID @CommonParameters
